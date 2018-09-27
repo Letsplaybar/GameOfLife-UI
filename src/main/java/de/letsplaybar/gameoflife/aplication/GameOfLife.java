@@ -97,7 +97,7 @@ public class GameOfLife {
             File file = chooser.showOpenDialog(((Stage)newGame.getScene().getWindow()));
             if(file!= null){
                 currentGame = Game.load(file);
-                gen.setText("Gerneration 0");
+                gen.setText("Generation 0");
                 load();
                 game.setVisible(true);
                 if(newGame.isVisible())
@@ -165,7 +165,7 @@ public class GameOfLife {
     void startGame(ActionEvent event) {
         currentGame.getRounds().get(currentGen).closeGen();
         load();
-        gen.setText("Gerneration 0");
+        gen.setText("Generation 0");
         newGame1.setVisible(false);
         game.setVisible(true);
     }
@@ -234,7 +234,7 @@ public class GameOfLife {
             if(!currentGame.getRounds().containsKey(currentGen+1))
                 currentGame.run();
             currentGen++;
-            gen.setText("Gerneration " + currentGen);
+            gen.setText("Generation " + currentGen);
             load();
         }
     }
@@ -245,7 +245,7 @@ public class GameOfLife {
             return;
         }
         currentGen--;
-        gen.setText("Gerneration "+currentGen);
+        gen.setText("Generation "+currentGen);
         load();
     }
 
