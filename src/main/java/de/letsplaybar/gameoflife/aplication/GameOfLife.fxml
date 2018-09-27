@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane pickOnBounds="false" prefHeight="664.0" prefWidth="600.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.letsplaybar.gameoflife.aplication.GameOfLife">
+   <children>
+      <HBox alignment="CENTER" layoutY="-1.0" prefHeight="132.0" prefWidth="600.0" spacing="60.0" style="-fx-background-color: #4682b4; -fx-border-radius: 0.6em; -fx-background-radius: 0.6em;">
+         <children>
+            <VBox alignment="CENTER" prefHeight="197.0" prefWidth="105.0" spacing="5.0">
+               <children>
+                  <ImageView fx:id="newpb" fitHeight="42.0" fitWidth="50.0" onMousePressed="#onMouseDrag" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/datei.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Neues Spiel" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <ImageView fx:id="ladepb" fitHeight="42.0" fitWidth="50.0" onDragDetected="#onMouseDrag" onMousePressed="#onMouseDrag" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/laden.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Spiel laden" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <ImageView fx:id="savepb" fitHeight="42.0" fitWidth="50.0" onDragDetected="#onMouseDrag" onMousePressed="#onMouseDrag" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/Speichern.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Spiel speichern" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="197.0" prefWidth="105.0" spacing="5.0">
+               <children>
+                  <ImageView fx:id="closepb" fitHeight="42.0" fitWidth="50.0" onDragDetected="#onMouseDrag" onMousePressed="#onMouseDrag" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/schließen.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Schließen" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <Pane fx:id="newGame" layoutY="162.0" prefHeight="176.0" prefWidth="600.0" style="-fx-background-color: #4682b4; -fx-border-radius: 0.6em; -fx-background-radius: 0.6em;" visible="false">
+         <children>
+            <Text layoutX="48.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Länge des Spielfeldes" />
+            <Text layoutX="48.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Breite des Spielfeldes" />
+            <TextField fx:id="length" layoutX="173.0" layoutY="52.0" prefHeight="25.0" prefWidth="392.0" style="-fx-border-radius: 0.6em; -fx-background-radius: 0.6em;" />
+            <TextField fx:id="width" layoutX="173.0" layoutY="83.0" prefHeight="25.0" prefWidth="392.0" style="-fx-border-radius: 0.6em; -fx-background-radius: 0.6em;" />
+            <Button layoutX="513.0" layoutY="135.0" mnemonicParsing="false" onAction="#next" style="-fx-background-color: #98fb98; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Weiter" />
+         </children>
+      </Pane>
+      <Pane fx:id="newGame1" layoutY="162.0" prefHeight="495.0" prefWidth="600.0" style="-fx-background-color: #4682b4; -fx-border-radius: 0.6em; -fx-background-radius: 0.6em;" visible="false">
+         <children>
+            <Button layoutX="518.0" layoutY="456.0" mnemonicParsing="false" onAction="#startGame" style="-fx-background-color: #98fb98; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Game Start" />
+            <Button layoutX="454.0" layoutY="456.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #fb98fb; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Zurück" />
+            <Text fill="WHITE" layoutX="32.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initialisiere Das Spielfeld">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Text>
+            <TableView fx:id="table" fixedCellSize="20.0" layoutX="32.0" layoutY="69.0" onMouseClicked="#onInit" prefHeight="364.0" prefWidth="538.0" style="-fx-background-color: #ee82ee; -fx-border-radius: 0.4em; -fx-background-radius: 0.4em;" />
+         </children>
+      </Pane>
+      <Pane fx:id="game" layoutY="169.0" prefHeight="657.0" prefWidth="600.0" style="-fx-background-color: #4682b4; -fx-border-radius: 0.6em; -fx-background-radius: 0.6em;">
+         <children>
+            <Button layoutX="535.0" layoutY="618.0" mnemonicParsing="false" onAction="#addGen" style="-fx-background-color: #98fb98; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Weiter" />
+            <Button layoutX="478.0" layoutY="618.0" mnemonicParsing="false" onAction="#backGen" style="-fx-background-color: #fb98fb; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Zurück" />
+            <Text fx:id="gen" fill="WHITE" layoutX="32.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gerneration x">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Text>
+            <TableView fx:id="table1" fixedCellSize="20.0" layoutX="32.0" layoutY="69.0" prefHeight="526.0" prefWidth="538.0" style="-fx-background-color: #ee82ee; -fx-border-radius: 0.4em; -fx-background-radius: 0.4em;" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
