@@ -138,7 +138,7 @@ public class GameOfLife {
         for(int i =0; i<length; i++){
             TableColumn<List<String>,String> col = new TableColumn<>(String.valueOf(i+1));
             col.setPrefWidth(20);
-            col.setCellValueFactory(new CellValueFactory(i,width));
+            col.setCellValueFactory(new CellValueFactory(i));
             col.setCellFactory(column -> new TableCell<List<String>, String>(){
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -185,7 +185,7 @@ public class GameOfLife {
         for(int i =0; i<length; i++){
             TableColumn<List<String>,String> col = new TableColumn<>(String.valueOf(i+1));
             col.setPrefWidth(20);
-            col.setCellValueFactory(new CellValueFactory(i,width));
+            col.setCellValueFactory(new CellValueFactory(i));
             col.setCellFactory(column -> new TableCell<List<String>, String>(){
                 @Override
                 protected void updateItem(String item, boolean empty) {
