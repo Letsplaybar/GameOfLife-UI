@@ -93,6 +93,7 @@
                </font>
             </Text>
             <TableView fx:id="table" fixedCellSize="20.0" layoutX="32.0" layoutY="69.0" onMouseClicked="#onInit" prefHeight="364.0" prefWidth="538.0" style="-fx-background-color: #ee82ee; -fx-border-radius: 0.4em; -fx-background-radius: 0.4em;" />
+            <Button layoutX="32.0" layoutY="456.0" mnemonicParsing="false" onAction="#randomize" style="-fx-background-color: #00ff00; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="randomize" textAlignment="CENTER" />
          </children>
       </Pane>
       <Pane fx:id="game" layoutY="169.0" prefHeight="657.0" prefWidth="600.0" style="-fx-background-color: #4682b4; -fx-border-radius: 0.6em; -fx-background-radius: 0.6em;">

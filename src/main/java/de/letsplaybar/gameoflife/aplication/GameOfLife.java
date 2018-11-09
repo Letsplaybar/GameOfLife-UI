@@ -229,6 +229,23 @@ public class GameOfLife {
     }
 
     @FXML
+    void randomize(ActionEvent event){
+        int length = currentGame.getLength();
+        int width = currentGame.getWidth();
+        Random random = new Random(System.nanoTime());
+        for(int x = 0; x < length; x++)
+            for(int y = 0; y < width; y++) {
+                if (random.nextLong() % 2 == 1) {
+                    currentGame.getRounds().get(currentGen).changeFeld(x + 1, y + 1);
+                    List<String> list = table.getItems().get(y);
+                    list.set(x, String.valueOf(currentGame.getRounds().get(currentGen).getGame()[x+1][y+1]));
+                    table.getItems().set(y,list);
+                    table.refresh();
+                }
+            }
+    }
+
+    @FXML
     void addGen(ActionEvent event) throws InterruptedException, CloneNotSupportedException {
         if(!currentGame.getRounds().get(currentGen).isDead()) {
             if(!currentGame.getRounds().containsKey(currentGen+1))
