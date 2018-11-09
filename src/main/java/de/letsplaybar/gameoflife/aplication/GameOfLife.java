@@ -3,13 +3,11 @@ package de.letsplaybar.gameoflife.aplication;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import de.letsplaybar.gameoflife.utils.CellValueFactory;
 import de.letsplaybar.gameoflife.utils.Game;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -69,11 +67,16 @@ public class GameOfLife {
     @FXML // fx:id="newpb"
     private ImageView newpb; // Value injected by FXMLLoader
 
+    @FXML // fx:id="play"
+    private ToggleButton play; // Value injected by FXMLLoader
+
     private boolean saved;
 
     private Game currentGame;
 
     private int currentGen;
+
+    private Timer timer;
 
 
     @FXML
@@ -89,12 +92,16 @@ public class GameOfLife {
             length.setText("");
             width.setText("");
             currentGen = 0;
+            if(timer != null)
+                timer.cancel();
         }else if(event.getTarget() == ladepb){
             FileChooser chooser = new FileChooser();
             FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("GameofLife","*.gol");
             chooser.getExtensionFilters().add(filter);
             chooser.setSelectedExtensionFilter(filter);
             File file = chooser.showOpenDialog(((Stage)newGame.getScene().getWindow()));
+            if(timer != null)
+                timer.cancel();
             if(file!= null){
                 currentGame = Game.load(file);
                 gen.setText("Generation 0");
@@ -108,6 +115,8 @@ public class GameOfLife {
             }
         }else if (event.getTarget() == savepb){
             if(currentGame != null){
+                if(timer != null)
+                    timer.cancel();
                 FileChooser chooser = new FileChooser();FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("GameofLife","*.gol");
                 chooser.getExtensionFilters().add(filter);
                 chooser.setSelectedExtensionFilter(filter);
@@ -117,7 +126,10 @@ public class GameOfLife {
             }
         }else if(event.getTarget() == closepb){
             if(saved){
+                if(timer != null)
+                    timer.cancel();
                 ((Stage)newGame.getScene().getWindow()).close();
+                System.exit(0);
             }
         }
     }
@@ -162,12 +174,40 @@ public class GameOfLife {
     }
 
     @FXML
-    void startGame(ActionEvent event) {
+    void startGame(ActionEvent event)  {
         currentGame.getRounds().get(currentGen).closeGen();
         load();
         gen.setText("Generation 0");
         newGame1.setVisible(false);
         game.setVisible(true);
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(currentGame.getRounds().get(currentGen).isDead())
+                    timer.cancel();
+                if(!play.isSelected())
+                    return;
+                if(!currentGame.getRounds().containsKey(currentGen+1)) {
+                    try {
+                        currentGame.run();
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                currentGen++;
+                gen.setText("Generation " + currentGen);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        load();
+                    }
+                });
+            }
+        },0, 250);
+
     }
 
     private void load(){
@@ -268,6 +308,7 @@ public class GameOfLife {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        assert play != null : "fx:id=\"play\" was not injected: check your FXML file 'GameOfLife.fxml'.";
         assert gen != null : "fx:id=\"gen\" was not injected: check your FXML file 'GameOfLife.fxml'.";
         assert newGame1 != null : "fx:id=\"newGame1\" was not injected: check your FXML file 'GameOfLife.fxml'.";
         assert game != null : "fx:id=\"game\" was not injected: check your FXML file 'GameOfLife.fxml'.";

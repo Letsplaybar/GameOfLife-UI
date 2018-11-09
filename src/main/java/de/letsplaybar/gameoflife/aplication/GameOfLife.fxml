@@ -99,13 +99,14 @@
       <Pane fx:id="game" layoutY="169.0" prefHeight="657.0" prefWidth="600.0" style="-fx-background-color: #4682b4; -fx-border-radius: 0.6em; -fx-background-radius: 0.6em;">
          <children>
             <Button layoutX="535.0" layoutY="618.0" mnemonicParsing="false" onAction="#addGen" style="-fx-background-color: #98fb98; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Weiter" />
-            <Button layoutX="478.0" layoutY="618.0" mnemonicParsing="false" onAction="#backGen" style="-fx-background-color: #fb98fb; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Zurück" />
+            <Button layoutX="406.0" layoutY="618.0" mnemonicParsing="false" onAction="#backGen" style="-fx-background-color: #fb98fb; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Zurück" />
             <Text fx:id="gen" fill="WHITE" layoutX="32.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gerneration x">
                <font>
                   <Font name="System Bold" size="27.0" />
                </font>
             </Text>
             <TableView fx:id="table1" fixedCellSize="20.0" layoutX="32.0" layoutY="69.0" prefHeight="526.0" prefWidth="538.0" style="-fx-background-color: #ee82ee; -fx-border-radius: 0.4em; -fx-background-radius: 0.4em;" />
+            <ToggleButton fx:id="play" layoutX="465.0" layoutY="618.0" mnemonicParsing="false" style="-fx-background-color: #01DFD7; -fx-border-radius: 6em; -fx-background-radius: 6em;" text="Autoplay" />
          </children>
       </Pane>
    </children>
