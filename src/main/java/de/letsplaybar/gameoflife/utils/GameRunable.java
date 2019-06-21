@@ -1,6 +1,6 @@
 package de.letsplaybar.gameoflife.utils;
 
-public class GameRunable implements Runnable {
+public class GameRunable extends Parallism implements Runnable {
     private int start;
     private int end;
     private Game game;
@@ -13,24 +13,7 @@ public class GameRunable implements Runnable {
      end = getEnd(number,Statics.THREADS.toInt(),length,2);
     }
 
-    private int getStart(int rank, int size, int lines, int ghost){
-        int start = (rank*((int)lines/size))+ghost/2;
-        if(rank != 0)
-            if(rank < lines%size)
-                start += rank;
-            else
-                start +=lines%size;
-        return start;
-    }
 
-    private int getEnd(int rank, int size, int lines, int ghost){
-        int start = getStart(rank,size,lines, ghost);
-        int end = start + lines/size;
-        if(rank >= lines% size){
-            end = end-1;
-        }
-        return end;
-    }
 
     @Override
     public void run() {

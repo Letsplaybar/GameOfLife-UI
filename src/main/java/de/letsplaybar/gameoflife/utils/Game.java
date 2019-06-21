@@ -1,7 +1,6 @@
 package de.letsplaybar.gameoflife.utils;
 
 import lombok.Getter;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -22,7 +21,7 @@ public class Game {
     public Game(int length, int width){
         this.length = length;
         this.width = width;
-        rounds = new HashMap();
+        rounds = new HashMap<>();
         rounds.put(0,new Feld(length,width));
         worklines = new int[Statics.THREADS.toInt()];
         for(int i = 0; i< worklines.length; i++) {
@@ -31,9 +30,10 @@ public class Game {
                 worklines[i]++;
         }
         pool = Executors.newFixedThreadPool(Statics.THREADS.toInt());
+        System.gc();
     }
 
-    public void run() throws CloneNotSupportedException, InterruptedException {
+    public void run() throws InterruptedException {
         int generation = rounds.size();
         rounds.put(generation,(Feld)rounds.get(generation-1).clone());
         int i=0;
@@ -43,27 +43,36 @@ public class Game {
         pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
         pool = Executors.newFixedThreadPool(Statics.THREADS.toInt());
         rounds.get(generation).closeGen();
+        System.gc();
+    }
+
+    public void init(int length, int width, ValueCallback callback) throws InterruptedException {
+        int i=0;
+        for(int amount : worklines)
+            pool.execute(new InitRunnable(length,width,callback,this,i++));
+        pool.shutdown();
+        pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+        pool = Executors.newFixedThreadPool(Statics.THREADS.toInt());
+        System.gc();
     }
 
     public File save(File name) throws IOException {
-        File game = name;
         JSONObject object = new JSONObject();
         object.put("length",length);
         object.put("width", width);
         object.put("rounds", new JSONObject());
         for(Integer feld : rounds.keySet())
             ((JSONObject)object.get("rounds")).put(String.valueOf(feld),rounds.get(feld).getGame());
-        FileWriter writer = new FileWriter(game);
+        FileWriter writer = new FileWriter(name);
         writer.write(object.toString());
         writer.close();
-        return game;
+        return name;
     }
 
     public static Game load(File name) throws IOException {
-        File file = name;
-        if(!file.exists())
+        if(!name.exists())
             throw new NullPointerException("File not exists");
-        FileReader reader = new FileReader(file);
+        FileReader reader = new FileReader(name);
         BufferedReader buf = new BufferedReader(reader);
         JSONObject object = new JSONObject(buf.readLine());
         buf.close();
